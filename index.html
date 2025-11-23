@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Scout - Elite Auto Technician Recruitment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: linear-gradient(180deg, 
+                #0a0a0a 0%, 
+                #1a1a1a 25%, 
+                #0f0f0f 50%, 
+                #1a1a1a 75%, 
+                #0a0a0a 100%);
+            position: relative;
+        }
+
+        /* Radial gradient overlay for depth */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 107, 53, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 133, 85, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Automotive Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent 35px, rgba(255, 107, 53, 0.08) 35px, rgba(255, 107, 53, 0.08) 37px),
+                repeating-linear-gradient(0deg, transparent, transparent 35px, rgba(255, 107, 53, 0.08) 35px, rgba(255, 107, 53, 0.08) 37px);
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Gear Icon Animation */
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes rotateReverse {
+            from {
+                transform: rotate(360deg);
+            }
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        .gear-decoration {
+            position: absolute;
+            opacity: 0.25;
+            pointer-events: none;
+            font-size: 200px;
+            animation: rotate 30s linear infinite;
+        }
+
+        .gear-decoration-reverse {
+            position: absolute;
+            opacity: 0.2;
+            pointer-events: none;
+            font-size: 150px;
+            animation: rotateReverse 25s linear infinite;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Header */
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.98);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.15);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-image {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.4));
+        }
+
+        .logo-text {
+            color: #ff6b35;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            color: white;
+            padding: 0.875rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: transparent;
+            color: white;
+            padding: 180px 2rem 120px;
+            text-align: center;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.12) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '⚙️';
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            font-size: 400px;
+            opacity: 0.15;
+            animation: rotate 40s linear infinite;
+            pointer-events: none;
+        }
+
+        /* Tire track pattern */
+        .tire-track {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 107, 53, 0.2) 10px,
+                rgba(255, 107, 53, 0.2) 12px,
+                transparent 12px,
+                transparent 20px,
+                rgba(255, 107, 53, 0.2) 20px,
+                rgba(255, 107, 53, 0.2) 22px,
+                transparent 22px,
+                transparent 40px
+            );
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            color: #ff6b35;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-badge::before {
+            content: '🔧 ';
+            margin-right: 5px;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-weight: 900;
+            letter-spacing: -2px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+            border-radius: 2px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero .cta-button {
+            font-size: 1rem;
+            padding: 1.25rem 3rem;
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            color: white;
+            padding: 1.25rem 3rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+
+        .cta-button-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 4rem;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Problem Section */
+        .problem-section {
+            background: transparent;
+            padding: 120px 2rem;
+            position: relative;
+        }
+
+        .problem-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.5), transparent);
+        }
+
+        .problem-section::after {
+            content: '🛠️';
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            font-size: 250px;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4rem;
+            font-weight: 300;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .problem-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35, #ff8555);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .problem-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .problem-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+        }
+
+        .problem-card .icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: grayscale(1);
+            opacity: 0.8;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .problem-card:hover .icon {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .problem-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .problem-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 120px 2rem;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-image {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            padding: 4rem;
+            border-radius: 30px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 30px 60px rgba(255, 107, 53, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .solution-image .icon {
+            font-size: 6rem;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-image h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-image p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            padding: 1.5rem 0;
+            padding-left: 3rem;
+            position: relative;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            transition: all 0.3s ease;
+        }
+
+        .benefits-list li:hover {
+            padding-left: 3.5rem;
+            color: white;
+        }
+
+        .benefits-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 1.5rem;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .benefits-list li:hover:before {
+            content: "🔧";
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .benefits-list li strong {
+            color: #ff6b35;
+            font-weight: 700;
+        }
+
+        /* Process Section */
+        .process-section {
+            background: transparent;
+            color: white;
+            padding: 120px 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-section::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.5), transparent);
+        }
+
+        .process-section::after {
+            content: '⚙️';
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            font-size: 300px;
+            opacity: 0.15;
+            animation: rotateReverse 30s linear infinite;
+            pointer-events: none;
+        }
+
+        .process-section .section-title {
+            color: white;
+        }
+
+        .process-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                rgba(255, 107, 53, 0.3) 0%, 
+                rgba(255, 107, 53, 0.5) 50%, 
+                rgba(255, 107, 53, 0.3) 100%);
+            z-index: 0;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+
+        .step::before {
+            content: '🔧';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2.5rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+        }
+
+        .step:hover::before {
+            opacity: 0.15;
+            top: 5px;
+            right: 5px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5);
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .step-number::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            opacity: 0.3;
+            z-index: -1;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .step:hover .step-number {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 15px 50px rgba(255, 107, 53, 0.7);
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .step p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+
+        /* Comparison Section */
+        .comparison-section {
+            padding: 120px 2rem;
+            background: #0a0a0a;
+            position: relative;
+        }
+
+        .comparison-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 600px;
+            transform: translateY(-50%);
+            background: radial-gradient(ellipse at center, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .comparison-table {
+            max-width: 1000px;
+            margin: 4rem auto 0;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .comparison-header div {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-weight: 800;
+            color: white;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comparison-header div:nth-child(3) {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            position: relative;
+        }
+
+        .comparison-header div:nth-child(3)::before {
+            content: '⭐ BEST CHOICE';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: #ff6b35;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .comparison-row:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row div {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .comparison-row div:first-child {
+            font-weight: 700;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.02);
+            color: white;
+            font-size: 1.05rem;
+        }
+
+        .comparison-row .check {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .comparison-row .cross {
+            width: 40px;
+            height: 40px;
+            background: rgba(244, 67, 54, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f44336;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+            color: white;
+            padding: 120px 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 50px,
+                rgba(255, 255, 255, 0.03) 50px,
+                rgba(255, 255, 255, 0.03) 100px
+            );
+            animation: float 30s linear infinite;
+        }
+
+        .cta-section::after {
+            content: '🏁';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 150px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .cta-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .cta-section p {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .cta-section .cta-button {
+            background: white;
+            color: #ff6b35;
+            font-size: 1.1rem;
+            padding: 1.5rem 4rem;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-section .cta-button:hover {
+            background: #f0f0f0;
+            color: #e55a28;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        footer p:first-child {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 120px 2rem;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-section::before {
+            content: '💬';
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            font-size: 200px;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonial-card {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 53, 0.6);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4);
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        .testimonial-content {
+            padding: 2.5rem;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-rating span {
+            color: #ff6b35;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-quote {
+            color: #ffffff !important;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .testimonial-author {
+            margin-top: 1.5rem;
+        }
+
+        .testimonial-info h4 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-info p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1rem;
+        }
+
+        .watch-video-button {
+            display: inline-block !important;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%) !important;
+            color: white !important;
+            text-decoration: none !important;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            text-align: center;
+            width: auto;
+        }
+
+        .watch-video-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+            color: white !important;
+        }
+
+
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .solution-content {
+                gap: 3rem;
+            }
+
+            .section-title {
+                font-size: 3rem;
+            }
+
+            .hero::after {
+                font-size: 250px;
+                right: -50px;
+            }
+
+            .problem-section::after,
+            .solution-section::after {
+                font-size: 150px;
+            }
+
+            .process-section::after {
+                font-size: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body::before {
+                opacity: 0.4;
+            }
+
+            header {
+                padding: 0.75rem 1rem;
+            }
+
+            .logo-image {
+                height: 40px;
+            }
+
+            .logo-text {
+                font-size: 1.2rem;
+            }
+
+            .cta-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.75rem;
+            }
+
+            .hero {
+                padding: 140px 1.5rem 80px;
+                margin-top: 70px;
+            }
+
+            .hero::after {
+                font-size: 220px;
+                right: -80px;
+                top: 5%;
+                opacity: 0.1;
+            }
+
+            .tire-track {
+                height: 50px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                letter-spacing: -1px;
+                margin-bottom: 1rem;
+            }
+
+            .hero-badge {
+                font-size: 0.75rem;
+                padding: 0.4rem 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+
+            .hero .cta-button {
+                padding: 1rem 2rem;
+                font-size: 0.85rem;
+            }
+
+            .cta-button-secondary {
+                padding: 1rem 2rem;
+                font-size: 0.85rem;
+            }
+
+            .hero-stats {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                margin-top: 2.5rem;
+            }
+
+            .stat {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .stat-label {
+                font-size: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                letter-spacing: -0.5px;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .problem-section,
+            .solution-section,
+            .process-section,
+            .comparison-section {
+                padding: 80px 1.5rem;
+            }
+
+            .problem-section::after,
+            .solution-section::after {
+                font-size: 150px;
+                opacity: 0.1;
+            }
+
+            .process-section::after {
+                font-size: 180px;
+                opacity: 0.1;
+            }
+
+            .problems-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .problem-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .problem-card .icon {
+                font-size: 3rem;
+            }
+
+            .problem-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .solution-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .solution-image {
+                padding: 2.5rem 2rem;
+            }
+
+            .solution-image .icon {
+                font-size: 4rem;
+            }
+
+            .solution-image h3 {
+                font-size: 1.5rem;
+            }
+
+            .solution-image p {
+                font-size: 1rem;
+            }
+
+            .benefits-list li {
+                font-size: 1rem;
+                padding: 1.25rem 0;
+                padding-left: 2.5rem;
+            }
+
+            .benefits-list li:before {
+                width: 26px;
+                height: 26px;
+                font-size: 0.9rem;
+                top: 1.25rem;
+            }
+
+            /* Guarantee section mobile */
+            section[style*="padding: 100px"] {
+                padding: 60px 1.5rem !important;
+            }
+
+            section[style*="padding: 100px"] h2 {
+                font-size: 1.8rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            section[style*="padding: 100px"] p {
+                font-size: 1.05rem !important;
+                margin-bottom: 2rem !important;
+            }
+
+            section[style*="padding: 100px"] > div > div > div {
+                padding: 2.5rem 1.5rem !important;
+            }
+
+            section[style*="padding: 100px"] div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 1.25rem !important;
+            }
+
+            section[style*="padding: 100px"] div[style*="grid-template-columns"] > div {
+                padding: 1.5rem !important;
+            }
+
+            section[style*="padding: 100px"] div[style*="grid-template-columns"] h3 {
+                font-size: 1.1rem !important;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .process-steps::before {
+                display: none;
+            }
+
+            .step {
+                padding: 1.5rem;
+            }
+
+            .step-number {
+                width: 70px;
+                height: 70px;
+                font-size: 1.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .step h3 {
+                font-size: 1.25rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .step p {
+                font-size: 0.95rem;
+            }
+
+            .comparison-table {
+                border-radius: 20px;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+            }
+
+            .comparison-header {
+                display: none;
+            }
+
+            .comparison-row {
+                grid-template-columns: 1fr;
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 107, 53, 0.2);
+                border-radius: 15px;
+                margin-bottom: 1rem;
+                overflow: hidden;
+            }
+
+            .comparison-row div {
+                padding: 0 !important;
+                background: transparent !important;
+                border: none !important;
+            }
+
+            .comparison-row div:first-child {
+                padding: 1.5rem 1.25rem !important;
+                text-align: left;
+                display: block;
+            }
+
+            .comparison-row div:not(:first-child) {
+                display: none !important;
+            }
+
+            .comparison-row::after {
+                content: '✓ Included with Auto Scout';
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+                background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 133, 85, 0.15) 100%);
+                color: #ff6b35;
+                font-weight: 700;
+                font-size: 0.8rem;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+                border-top: 1px solid rgba(255, 107, 53, 0.2);
+            }
+
+            .comparison-section div[style*="text-align: center"] {
+                margin-top: 2.5rem !important;
+            }
+
+            .comparison-section div[style*="text-align: center"] > div {
+                padding: 2rem 1.5rem !important;
+                max-width: 100% !important;
+            }
+
+            .comparison-section div[style*="text-align: center"] h3 {
+                font-size: 1.25rem !important;
+            }
+
+            .comparison-section div[style*="text-align: center"] p {
+                font-size: 1rem !important;
+            }
+
+            /* Testimonials mobile */
+            .testimonials-section {
+                padding: 80px 1.5rem;
+            }
+
+            .testimonials-grid {
+                margin-top: 2.5rem;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .testimonial-card {
+                max-width: 100%;
+            }
+
+            .testimonial-content {
+                padding: 1.5rem;
+            }
+
+            .testimonial-quote {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+
+            .testimonial-info h4 {
+                font-size: 1rem;
+            }
+
+            .testimonial-info p {
+                font-size: 0.85rem;
+            }
+
+            .watch-video-button {
+                padding: 0.9rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 120px 2rem;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-section::before {
+            content: '💬';
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            font-size: 200px;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonial-card {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 53, 0.6);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4);
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        .testimonial-video {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            position: relative;
+            background: #000;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .video-thumbnail-link {
+            display: block;
+            position: relative;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .video-thumbnail-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .play-button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .video-thumbnail-link:hover .play-button-overlay {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .play-button {
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        .play-button svg {
+            width: 70px;
+            height: 70px;
+        }
+
+        .video-thumbnail-link:hover .play-button {
+            transform: scale(1.1);
+        }
+
+        .play-button svg circle {
+            transition: all 0.3s ease;
+        }
+
+        .video-thumbnail-link:hover .play-button svg circle {
+            fill: rgba(255, 107, 53, 1);
+        }
+
+        .watch-text {
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        
+
+        .testimonial-video iframe,
+        .testimonial-video video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        
+
+        
+
+        
+
+        .video-thumbnail-link:hover 
+
+        
+
+        
+
+        .video-thumbnail-link:hover 
+
+        .play-button svg circle {
+            transition: all 0.3s ease;
+        }
+
+        .video-thumbnail-link:hover .play-button svg circle {
+            fill: rgba(255, 107, 53, 1);
+        }
+
+        .watch-text {
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .testimonial-content {
+            padding: 2.5rem;
+        }
+
+        .testimonial-quote {
+            color: #ffffff !important;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .testimonial-author {
+            margin-top: 1.5rem;
+        }
+
+        .testimonial-info h4 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-info p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1rem;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-rating span {
+            color: #ff6b35;
+            font-size: 1.2rem;
+        }
+
+                .watch-video-button {
+            display: inline-block !important;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%) !important;
+            color: white !important;
+            text-decoration: none !important;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            text-align: center;
+            width: auto;
+        }
+
+        .watch-video-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+            color: white !important;
+        }
+
+            .cta-section {
+                padding: 80px 1.5rem;
+            }
+
+            .cta-section::after {
+                font-size: 80px;
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .cta-section h2 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .cta-section p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+
+            .cta-section .cta-button {
+                font-size: 0.95rem;
+                padding: 1.25rem 2.5rem;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .hero-buttons a {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .logo-image {
+                height: 35px;
+            }
+
+            .logo-text {
+                font-size: 1rem;
+            }
+
+            .stat-number {
+                font-size: 1.75rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+
+            .hero-stats {
+                gap: 1rem;
+            }
+
+            .stat {
+                min-width: 100px;
+            }
+
+            section[style*="padding: 100px"] h2 {
+                font-size: 1.5rem !important;
+            }
+
+            section[style*="padding: 100px"] p {
+                font-size: 0.95rem !important;
+            }
+
+            .comparison-section div[style*="text-align: center"] > div {
+                padding: 1.5rem 1rem !important;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .cta-button {
+                padding: 0.65rem 1.25rem;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav>
+            <div class="logo">
+                <img src="data:image/webp;base64,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" alt="Auto Scout Logo" class="logo-image">
+                <span class="logo-text">Auto Scout</span>
+            </div>
+            <a href="https://calendly.com/autoscoutrecruiting/auto-scout-hire-an-a-or-b-tech-in-30-days?month=2025-11&date=2025-11-24" target="_blank" rel="noopener noreferrer" class="cta-button">Get Started</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="tire-track"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Elite Technician Recruitment</div>
+            <h1>Stop Wasting Money on <span class="highlight">Unqualified Technicians</span></h1>
+            <p>We find and recruit A & B level technicians for your auto shop—hassle-free, exclusive, and ready to work</p>
+            <div class="hero-buttons">
+                <a href="https://calendly.com/autoscoutrecruiting/auto-scout-hire-an-a-or-b-tech-in-30-days?month=2025-11&date=2025-11-24" target="_blank" rel="noopener noreferrer" class="cta-button">Find Your Next Tech</a>
+                <a href="#process" class="cta-button-secondary">See How It Works</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">35</div>
+                    <div class="stat-label">Days Avg Placement</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Exclusive Technicians</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">94%</div>
+                    <div class="stat-label">Retention Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-section">
+        <div class="container">
+            <h2 class="section-title">The Traditional Recruiting Problem</h2>
+            <p class="section-subtitle">Auto shops waste thousands on recruitment sites with little to show for it</p>
+            
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="icon">💸</div>
+                    <h3>High Costs</h3>
+                    <p>Spending hundreds per month on job boards with no guaranteed results</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">👥</div>
+                    <h3>Shared Applicants</h3>
+                    <p>Your "exclusive" candidates are applying to every shop in town</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">⚠️</div>
+                    <h3>Unqualified Leads</h3>
+                    <p>Sifting through dozens of resumes from people with no real experience</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">⏰</div>
+                    <h3>Time Drain</h3>
+                    <p>Spending hours reviewing applications instead of running your business</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section" id="process">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Simple, effective, hassle-free</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Tell Us What You Need</h3>
+                    <p>Share your requirements: specializations, certifications, experience level, and location</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>We Launch Our Campaign</h3>
+                    <p>Our proprietary digital recruitment system reaches qualified technicians in your area who match your criteria</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>We Screen & Qualify</h3>
+                    <p>We pre-screen all applicants to ensure they meet your standards before sending them your way</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>You Interview & Hire</h3>
+                    <p>Meet only the best candidates—qualified, motivated, and exclusive to you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution-section" style="padding: 100px 2rem; background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%); position: relative; overflow: hidden;">
+        <div class="container">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <div style="background: rgba(255, 107, 53, 0.05); border: 3px solid rgba(255, 107, 53, 0.3); padding: 3.5rem 2.5rem 2.5rem 2.5rem; border-radius: 30px; position: relative; backdrop-filter: blur(10px); box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);">
+                    
+                    <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%); color: white; padding: 0.65rem 2.5rem; border-radius: 50px; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5); white-space: nowrap;">
+                        🛡️ Retention Guarantee
+                    </div>
+                    
+                    <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem; margin-top: 0.5rem; font-weight: 900; letter-spacing: -1px; text-align: center; line-height: 1.2;">
+                        If Your Technician Leaves Early On,<br>
+                        <span style="background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">We Replace Them Free</span>
+                    </h2>
+                    
+                    <p style="color: rgba(255, 255, 255, 0.85); font-size: 1.35rem; line-height: 1.9; text-align: center; margin-bottom: 2rem; font-weight: 400;">
+                        When you join Auto Scout, you're fully protected. If a technician we place leaves early on, we'll find you a replacement at <strong style="color: #ff6b35;">absolutely no additional charge</strong>. We stand behind every placement we make because we're confident in our screening process.
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What Shop Owners Say</h2>
+            <p class="section-subtitle">Real results from real auto shops</p>
+            
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 - Robert -->
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                        </div>
+                        <p class="testimonial-quote">
+                            "They helped me hire two solid A-techs. I tried Indeed and ZipRecruiter before and they didn't work out. Auto Scout's system actually delivers."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-info">
+                                <h4>Robert</h4>
+                                <p>Lakeview Motors</p>
+                            </div>
+                        </div>
+                        <a href="https://youtube.com/shorts/DhvX_YDLgyw" target="_blank" rel="noopener noreferrer" class="watch-video-button">
+                            ▶ Watch Video Testimonial
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 - Tony -->
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                            <span>⭐</span>
+                        </div>
+                        <p class="testimonial-quote">
+                            "Auto Scout delivered exactly what they promised. Quality technicians who showed up ready to work. Finally a recruiting service that actually works."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-info">
+                                <h4>Tony</h4>
+                                <p>Tony's Auto & Repair</p>
+                            </div>
+                        </div>
+                        <a href="https://youtube.com/shorts/fGjx4xZzPgM" target="_blank" rel="noopener noreferrer" class="watch-video-button">
+                            ▶ Watch Video Testimonial
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>Ready to Find Your Next Star Technician?</h2>
+            <p>Stop wasting time and money on job boards. Let us bring qualified candidates directly to you.</p>
+            <a href="https://calendly.com/autoscoutrecruiting/auto-scout-hire-an-a-or-b-tech-in-30-days?month=2025-11&date=2025-11-24" target="_blank" rel="noopener noreferrer" class="cta-button">Schedule a Free Consultation</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Auto Scout. All rights reserved.</p>
+            <p>Specialized Auto Technician Recruitment</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.problem-card, .step, .solution-image, .benefits-list').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Counting animation for hero stats
+        function animateCount(element, target, duration, suffix = '') {
+            let start = 0;
+            const increment = target / (duration / 16); // 60fps
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start) + suffix;
+                }
+            }, 16);
+        }
+
+        // Observe hero stats and trigger counting when visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                    entry.target.classList.add('counted');
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const originalText = statNumber.textContent;
+                    
+                    if (originalText.includes('%')) {
+                        const target = parseInt(originalText);
+                        statNumber.textContent = '0%';
+                        animateCount(statNumber, target, 2000, '%');
+                    } else {
+                        const target = parseInt(originalText);
+                        statNumber.textContent = '0';
+                        animateCount(statNumber, target, 2000);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe all stat elements
+        document.querySelectorAll('.stat').forEach(stat => {
+            statsObserver.observe(stat);
+        });
+    </script>
+</body>
+</html>
